@@ -23,20 +23,10 @@ RUN set -x \
 	# Clean up
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
-				+login anonymous \
-				+app_update 90 validate \
-				+quit | true
-
-RUN bash "${STEAMCMDDIR}/steamcmd.sh" \
-				+login anonymous \
-				+app_update 10 validate \
-				+quit | true
-                
-RUN bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
-				+login anonymous \
-				+app_update 90 validate\
-				+quit | true
+RUN ${STEAMCMDDIR}/steamcmd.sh +login anonymous +force_install_dir "${STEAMAPPDIR}" +app_update 90 +app_set_config 90 mod cstrike validate +quit || true && \
+    mkdir -p "${STEAMAPPDIR}/steamapps" && \
+    curl -s https://raw.githubusercontent.com/dgibbs64/HLDS-appmanifest/master/CounterStrike/appmanifest_90.acf -o ${STEAMAPPDIR}/steamapps/appmanifest_90.acf && \
+    ${STEAMCMDDIR}/steamcmd.sh +login anonymous +force_install_dir "${STEAMAPPDIR}" +app_update 90 +app_set_config 90 mod cstrike validate +quit
 
 # Add config files
 ADD cfg/ "${STEAMAPPDIR}/${STEAMAPP}/cfg"
