@@ -39,7 +39,7 @@ RUN bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
 				+quit | true
 
 # Add config files
-ADD cfg/ ${STEAMAPPDIR}/${STEAMAPP}/cfg
+ADD cfg/ "${STEAMAPPDIR}/${STEAMAPP}/cfg"
 
 ENV HLDS_PORT=27015 \
 	HLDS_IP=0 \
