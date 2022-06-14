@@ -3,6 +3,7 @@
 ### based on
 - [https://github.com/CM2Walki/TF2](https://github.com/CM2Walki/TF2)
 - [https://github.com/febLey/counter-strike_server](https://github.com/febLey/counter-strike_server)
+- [https://github.com/archont94/counter-strike1.6](https://github.com/archont94/counter-strike1.6)
 
 ## How to run this docker
 
