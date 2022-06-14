@@ -21,23 +21,22 @@ RUN set -x \
 	&& chmod +x "${HOMEDIR}/entry.sh" \
 	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}" \
 	# Clean up
-	&& rm -rf /var/lib/apt/lists/* \
-	&& bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
 				+login anonymous \
 				+app_update 90 validate \
-				+quit \
-    &&  bash "${STEAMCMDDIR}/steamcmd.sh" \
-				+login anonymous \
-				+app_update 70 validate \
-				+quit \
-    &&  bash "${STEAMCMDDIR}/steamcmd.sh" \
+				+quit | true
+
+RUN bash "${STEAMCMDDIR}/steamcmd.sh" \
 				+login anonymous \
 				+app_update 10 validate \
-				+quit \
-    &&  bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
+				+quit | true
+                
+RUN bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
 				+login anonymous \
 				+app_update 90 validate\
-				+quit
+				+quit | true
 
 # Add config files
 ADD cfg/ ${STEAMAPPDIR}/${STEAMAPP}/cfg
