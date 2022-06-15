@@ -4,9 +4,6 @@ ENV STEAMAPPID 10
 ENV STEAMAPP cstrike
 ENV STEAMAPPDIR "${HOMEDIR}/${STEAMAPP}-dedicated"
 
-# Add entry script
-ADD entry.sh ${HOMEDIR}/entry.sh
-
 RUN set -x \
 	# Add i386 architecture
 	&& dpkg --add-architecture i386 \
@@ -18,8 +15,7 @@ RUN set -x \
         libgcc1:i386 \
         unzip \
 	&& mkdir -p "${STEAMAPPDIR}" \
-	&& chmod +x "${HOMEDIR}/entry.sh" \
-	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}" \
+	&& chown -R "${USER}:${USER}" "${STEAMAPPDIR}" \
 	# Clean up
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -28,9 +24,13 @@ RUN ${STEAMCMDDIR}/steamcmd.sh +login anonymous +force_install_dir "${STEAMAPPDI
     curl -s https://raw.githubusercontent.com/dgibbs64/HLDS-appmanifest/master/CounterStrike/appmanifest_90.acf -o ${STEAMAPPDIR}/steamapps/appmanifest_90.acf && \
     ${STEAMCMDDIR}/steamcmd.sh +login anonymous +force_install_dir "${STEAMAPPDIR}" +app_update 90 +app_set_config 90 mod cstrike validate +quit
 
-# Add config files
+# Add entry script/config files after finshing installing game app, 
+# otherwise you will end up installing game app again when you change the contents of those files.
 ADD cfg/ "${STEAMAPPDIR}/${STEAMAPP}/cfg"
-
+ADD entry.sh ${HOMEDIR}/entry.sh
+RUN chmod +x "${HOMEDIR}/entry.sh" \
+	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entry.sh"
+	
 ENV HLDS_PORT=27015 \
 	HLDS_IP=0 \
 	HLDS_MAXPLAYERS=16 \
