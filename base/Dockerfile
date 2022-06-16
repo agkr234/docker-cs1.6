@@ -37,8 +37,9 @@ ENV HLDS_PORT=27015 \
 	HLDS_PW="" \
 	HLDS_STARTMAP="de_dust2" \
 	HLDS_HOSTNAME="Counter-Strike Dedicated Server" \
-    HLDS_SVLAN=0
-
+    HLDS_SVLAN=0 \
+	HLDS_FASTDL="http://127.0.0.1/cstrike/"
+	
 # Switch to user
 USER ${USER}
 
