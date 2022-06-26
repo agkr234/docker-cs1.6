@@ -26,7 +26,7 @@ RUN ${STEAMCMDDIR}/steamcmd.sh +login anonymous +force_install_dir "${STEAMAPPDI
 
 # Add entry script/config files after finshing installing game app, 
 # otherwise you will end up installing game app again when you change the contents of those files.
-ADD cfg/ "${STEAMAPPDIR}/${STEAMAPP}/cfg"
+ADD cfg/server.cfg "${STEAMAPPDIR}/${STEAMAPP}"
 ADD entry.sh ${HOMEDIR}/entry.sh
 RUN chmod +x "${HOMEDIR}/entry.sh" \
 	&& chown -R "${USER}:${USER}" "${HOMEDIR}/entry.sh"
